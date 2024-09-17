@@ -2,29 +2,33 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { removeFromCart } from "../store/cartSlice";
-import { FaFacebook } from "react-icons/fa6";
-import { FaInstagram } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 import { resetState } from "../store";
+import { toast } from "react-toastify";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { items: addToCartProducts } = useSelector((state) => state.cart);
   const { usernname } = useSelector((state) => state.products);
+
+  const handleLogout = () => {
+    toast.success("Successfully logged out!"); // Show success toast
+    localStorage.removeItem("authToken");
+    dispatch(resetState()); // Clear Redux state
+    navigate("/login"); // Redirect to login page
+  };
+
   return (
-    <div className="p-4 relative ">
+    <div className="p-4 relative">
+      {/* ToastContainer should be in the root component */}
       <div className="flex h-auto justify-between">
         <span>LOGO</span>
         <div className="flex gap-2 mb-4">
           Welcome, <span>{usernname}</span>|
           <button
-            // className="bg-gray-300"
-            onClick={() => {
-              localStorage.removeItem("authToken");
-              navigate("/login");
-              dispatch(resetState());
-            }}
+            onClick={handleLogout}
+            className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
           >
             Logout
           </button>
@@ -39,9 +43,8 @@ const Cart = () => {
           Go To Product
         </button>
       </h1>
-      {/* {addToCartProducts.length > 0 ? ( */}
       <div
-        className=" overflow-scroll"
+        className="overflow-scroll"
         style={{
           maxHeight: "calc(100vh - 200px)",
         }}
@@ -68,15 +71,14 @@ const Cart = () => {
               </tr>
             </thead>
             <tbody>
-              {addToCartProducts.length > 0 &&
-                addToCartProducts.map((product) => (
-                  <ProductRow key={product.id} product={product} />
-                ))}
+              {addToCartProducts.map((product) => (
+                <ProductRow key={product.id} product={product} />
+              ))}
             </tbody>
           </table>
         )}
       </div>
-      <div className="flex  h-full justify-between items-end  mt-10">
+      <div className="flex h-full justify-between items-end mt-10">
         <span>Cookie Policy - Legal Notice</span>
         <span>Copyright @2021.</span>
         <span className="flex justify-between gap-5">
@@ -89,7 +91,6 @@ const Cart = () => {
   );
 };
 
-export default Cart;
 const ProductRow = ({ product }) => {
   const dispatch = useDispatch();
 
@@ -128,3 +129,5 @@ const ProductRow = ({ product }) => {
     </tr>
   );
 };
+
+export default Cart;

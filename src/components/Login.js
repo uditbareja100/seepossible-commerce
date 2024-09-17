@@ -6,6 +6,8 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { FaGoogle, FaFacebookF, FaApple } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { setUsername } from "../store/productsSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(true);
@@ -19,11 +21,14 @@ const LoginPage = () => {
         username: values?.username,
         password: values?.password,
       });
-      console.log(response?.data, "respondata");
       localStorage.setItem("authToken", response?.data?.token);
       setAuthStatus("Logged in successfully");
       dispatch(setUsername(response?.data?.firstName));
-      navigate("/");
+      // toast.success("Logged in successfully!");
+      setTimeout(() => {
+        navigate("/"); // Redirect after showing toast
+      }, 1000); // Adjust timing if necessary
+      // navigate("/");
     } catch (error) {
       setAuthStatus("Login failed");
       setErrors({ submit: "Invalid credentials" });

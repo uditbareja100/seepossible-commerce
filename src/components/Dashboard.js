@@ -8,13 +8,13 @@ import { PiShoppingCartSimpleLight, PiShoppingCartFill } from "react-icons/pi";
 import { FaFacebook } from "react-icons/fa6";
 import { FaInstagram } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
+import { toast, ToastContainer } from "react-toastify";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const aa = useSelector((state) => state.products);
   const { items: addToCartProducts } = useSelector((state) => state.cart);
-  console.log(aa, "---");
   const {
     items: products,
     status,
@@ -51,6 +51,7 @@ const Dashboard = () => {
           Welcome, <span>{usernname}</span>|
           <button
             onClick={() => {
+              toast.success("This is a test notification!");
               localStorage.removeItem("authToken");
               navigate("/login");
             }}
