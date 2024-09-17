@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
+import { Provider } from "react-redux";
+import LoginPage from "./components/Login";
+import SignUpForm from "./components/Signup";
+import Dashboard from "./components/Dashboard";
+import Cart from "./components/Cart";
+import store from "./store";
+
+const PrivateRoute = ({ element }) => {
+  const token = localStorage.getItem("authToken");
+  return token ? element : <Navigate to="/login" />;
+};
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <Router>
+        <Routes>
+          <Route path="/signup" element={<SignUpForm />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/" element={<PrivateRoute element={<Dashboard />} />} />
+          <Route path="/cart" element={<PrivateRoute element={<Cart />} />} />
+        </Routes>
+      </Router>
+    </Provider>
   );
 }
 
