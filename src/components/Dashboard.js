@@ -79,9 +79,9 @@ const Dashboard = () => {
         </button>
       </h1>
       <div
-        className=" bg-red-400 overflow-scroll"
+        className=" overflow-scroll"
         style={{
-          maxHeight: "calc(100vh - 250px)",
+          maxHeight: "calc(100vh - 200px)",
         }}
       >
         <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">

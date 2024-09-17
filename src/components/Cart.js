@@ -5,6 +5,7 @@ import { removeFromCart } from "../store/cartSlice";
 import { FaFacebook } from "react-icons/fa6";
 import { FaInstagram } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
+import { resetState } from "../store";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -12,7 +13,7 @@ const Cart = () => {
   const { items: addToCartProducts } = useSelector((state) => state.cart);
   const { usernname } = useSelector((state) => state.products);
   return (
-    <div className="p-4 h-screen flex flex-col">
+    <div className="p-4 relative ">
       <div className="flex h-auto justify-between">
         <span>LOGO</span>
         <div className="flex gap-2 mb-4">
@@ -22,13 +23,14 @@ const Cart = () => {
             onClick={() => {
               localStorage.removeItem("authToken");
               navigate("/login");
+              dispatch(resetState());
             }}
           >
             Logout
           </button>
         </div>
       </div>
-      <h1 className="text-2xl flex justify-between font-semibold mb-4">
+      <h1 className="text-xs flex justify-between font-semibold mb-4">
         Your Cart
         <button
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
@@ -39,9 +41,9 @@ const Cart = () => {
       </h1>
       {/* {addToCartProducts.length > 0 ? ( */}
       <div
-        className=" h-full overflow-scroll"
+        className=" overflow-scroll"
         style={{
-          maxHeight: "calc(100vh - 20px)",
+          maxHeight: "calc(100vh - 200px)",
         }}
       >
         {addToCartProducts.length > 0 && (
@@ -74,7 +76,7 @@ const Cart = () => {
           </table>
         )}
       </div>
-      <div className="flex h-full justify-between items-end  mt-10">
+      <div className="flex  h-full justify-between items-end  mt-10">
         <span>Cookie Policy - Legal Notice</span>
         <span>Copyright @2021.</span>
         <span className="flex justify-between gap-5">
